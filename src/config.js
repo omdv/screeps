@@ -2,7 +2,9 @@ const config={
     // variables
     "BUILDING_CHECK_FREQUENCY": 100,
     "NUMBER_OF_BUILDERS": 4,
+    "NUMBER_OF_UPGRADERS": 2,
     "WAITING_ZONE": [40, 18],
+    "REPAIR_THRESHOLD": 0.4,
     // WORKER TYPES
     "types": {
         "worker": {
@@ -21,34 +23,46 @@ const config={
     // STRUCTURES
     "structures": {
         "Container01": {
-            "x": 29,
-            "y": 33,
+            "x": 36,
+            "y": 23,
             "type": STRUCTURE_CONTAINER,
             "minRCL": 0
         },
-        "Container02": {
-            "x": 35,
-            "y": 6,
-            "type": STRUCTURE_CONTAINER,
-            "minRCL": 0
-        },
-        "Container03": {
-            "x": 25,
-            "y": 19,
-            "type": STRUCTURE_CONTAINER,
-            "minRCL": 0
-        },
-        "Container04": {
-            "x": 37,
-            "y": 18,
-            "type": STRUCTURE_CONTAINER,
-            "minRCL": 0
-        },
-        "Container05": {
+        "Extension01": {
             "x": 33,
-            "y": 25,
-            "type": STRUCTURE_CONTAINER,
-            "minRCL": 0
+            "y": 22,
+            "type": STRUCTURE_EXTENSION,
+            "minRCL": 2
+        },
+        "Extension02": {
+            "x": 33,
+            "y": 23,
+            "type": STRUCTURE_EXTENSION,
+            "minRCL": 2
+        },
+        "Extension03": {
+            "x": 33,
+            "y": 24,
+            "type": STRUCTURE_EXTENSION,
+            "minRCL": 2
+        },
+        "Extension04": {
+            "x": 35,
+            "y": 23,
+            "type": STRUCTURE_EXTENSION,
+            "minRCL": 2
+        },
+        "Extension05": {
+            "x": 35,
+            "y": 24,
+            "type": STRUCTURE_EXTENSION,
+            "minRCL": 2
+        },
+        "Tower01": {
+            "x": 43,
+            "y": 24,
+            "type": STRUCTURE_TOWER,
+            "minRCL": 3
         }
     }
 };

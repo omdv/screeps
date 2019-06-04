@@ -1,6 +1,8 @@
 // all tasks
 var taskSpawner = require('tasks_task.Spawner');
-var taskBaseBuilding = require('tasks_task.BaseBuilding');
+var taskBuildBase = require('tasks_task.BuildBase');
+var taskBuildRoads = require('tasks_task.BuildRoads');
+
 
 // all roles
 var roleMiner = require('roles_role.miner');
@@ -21,16 +23,20 @@ module.exports.loop = function () {
         }
     }
 
-    // game spawner
-    // gameSpawner.run(Game, config);
-
-    // spawnMiners
+    // Spawner loop
+    // TODO: make room specific
     taskSpawner.run(Game);
 
-    // Base Building
+    // Place buildings
     if (Game.time % config['BUILDING_CHECK_FREQUENCY'] == 0) {
       console.log('Checking structures');
-      taskBaseBuilding.run(Game);
+      taskBuildBase.run(Game);
+    }
+
+    // Place roads
+    if (Game.time % 10 == 0) {
+      console.log('Checking roads');
+      taskBuildRoads.run(Game);
     }
 
 

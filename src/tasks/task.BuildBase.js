@@ -1,13 +1,14 @@
-var roleBuilder = require('roles_role.builder');
 const config = require('config');
 
-var taskBaseBuilding = {
+var taskBuildBase = {
   
   run: function(game) {
     var room= game.spawns.Spawn1.room;
     var RCL = room.controller.level;
     var structures = config['structures'];
 
+
+    
     // filter the structures allowed for current rcl
     var to_build = _.filter(structures, function(o) { return o.minRCL <= RCL; });
 
@@ -18,4 +19,4 @@ var taskBaseBuilding = {
   }
 }
       
-module.exports = taskBaseBuilding;
+module.exports = taskBuildBase;

@@ -1,3 +1,6 @@
+var auxPickupEnergy = require('aux_pickup_energy');
+const config = require('config');
+
 var roleBuilder = {
 
     /** @param {Creep} creep **/
@@ -5,7 +8,7 @@ var roleBuilder = {
 
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
-            creep.say('🔄 harvest');
+            creep.say('🔄 pickup');
         }
         if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
             creep.memory.building = true;
@@ -13,24 +16,31 @@ var roleBuilder = {
         }
 
         if(creep.memory.building) {
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+            // repair section
+            var targets = creep.room.find(FIND_STRUCTURES, {filter: (structure) => {
+                    return (
+                        (structure.structureType == STRUCTURE_ROAD ||
+                        structure.structureType == STRUCTURE_CONTAINER) && 
+                        structure.hits < (structure.hitsMax * config['REPAIR_THRESHOLD']));
+                }
+            })
             if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                creep.say('⚒ repair');
+                if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                }
+            } else {
+                // build section
+                targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+                if(targets.length) {
+                    if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                    }
                 }
             }
         }
         else {
-            // var sources = creep.room.find(FIND_SOURCES);
-            // if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-            //     creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-            // }
-            var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES)
-            if(dropenergy){
-                if(creep.pickup(dropenergy) == ERR_NOT_IN_RANGE){
-                    creep.moveTo(dropenergy.pos, {visualizePathStyle: {stroke: '#ffaa00'}})
-                }
-            }
+            auxPickupEnergy.run(creep);
         }
     }
 };
