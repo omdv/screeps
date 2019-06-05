@@ -50,17 +50,20 @@ var roleHauler = {
                     filter: (structure) => {
                         return (
                             (structure.structureType == STRUCTURE_EXTENSION ||
-                            structure.structureType == STRUCTURE_SPAWN ||
                             structure.structureType == STRUCTURE_TOWER) && 
-                            structure.energy < structure.energyCapacity
-                            ) || (
-                                structure.structureType == STRUCTURE_CONTAINER &&
+                            structure.energy < structure.energyCapacity) || 
+                            ((structure.structureType == STRUCTURE_CONTAINER || 
+                                structure.structureType == STRUCTURE_STORAGE) &&
                                 structure.store[RESOURCE_ENERGY] < structure.storeCapacity
                             )
                     }
                 })
             }
             if(targets.length > 0) {
+                // sort by priority of filling
+                targets = _.sortBy(targets, function(item){
+                    return config['PRIORITY_OF_ENERGY_FILLING'].indexOf(item.structureType)
+                });
                 if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
                 }

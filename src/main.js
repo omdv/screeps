@@ -2,6 +2,7 @@
 var taskSpawner = require('tasks_task.Spawner');
 var taskBuildBase = require('tasks_task.BuildBase');
 var taskBuildRoads = require('tasks_task.BuildRoads');
+var taskUpdateMemory = require('tasks_task.UpdateMemory');
 
 
 // all roles
@@ -15,29 +16,39 @@ const config = require('config');
 
 module.exports.loop = function () {
 
-    // clear memory
-    for(var name in Memory.creeps) {
-        if(!Game.creeps[name]) {
-            delete Memory.creeps[name];
-            console.log('Clearing non-existing creep memory:', name);
-        }
-    }
+    // // clear memory
+    // for(var name in Memory.creeps) {
+    //     if(!Game.creeps[name]) {
+    //         // let creep = Game.creeps[name];
+    //         console.log(Memory.creeps[name]);
+    //         if (Memory.creeps[name].role == 'miner') {
+    //           // console.log('Clearing up miner:', name, Memory.creeps[name].source);
+    //           Memory.sources[Memory.creeps[name].source].assigned_parts -= Memory.creeps[name].work_parts;
+    //           Memory.sources[Memory.creeps[name].source].assigned_miners -= 1;
+
+    //         }
+    //         delete Memory.creeps[name];
+    //         console.log('Clearing non-existing creep memory:', name);
+    //     }
+    // }
+    taskUpdateMemory.run();
 
     // Spawner loop
     // TODO: make room specific
     taskSpawner.run(Game);
 
-    // Place buildings
+    // Construction loops
     if (Game.time % config['BUILDING_CHECK_FREQUENCY'] == 0) {
       console.log('Checking structures');
       taskBuildBase.run(Game);
-    }
-
-    // Place roads
-    if (Game.time % 10 == 0) {
-      console.log('Checking roads');
       taskBuildRoads.run(Game);
     }
+
+    // // Place roads
+    // if (Game.time % config['BUILDING_CHECK_FREQUENCY'] == 0) {
+    //   console.log('Checking roads');
+    //   taskBuildRoads.run(Game);
+    // }
 
 
     // var tower = Game.getObjectById('TOWER_ID');

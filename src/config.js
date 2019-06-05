@@ -5,6 +5,12 @@ const config={
     "NUMBER_OF_UPGRADERS": 2,
     "WAITING_ZONE": [40, 18],
     "REPAIR_THRESHOLD": 0.4,
+    "PRIORITY_OF_ENERGY_FILLING": [
+        STRUCTURE_EXTENSION,
+        STRUCTURE_TOWER,
+        STRUCTURE_CONTAINER,
+        STRUCTURE_STORAGE
+    ],
     // WORKER TYPES
     "types": {
         "worker": {

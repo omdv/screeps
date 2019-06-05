@@ -35,7 +35,6 @@ var pickupEnergy = {
                 creep.moveTo(dropenergy.pos, {visualizePathStyle: {stroke: '#ffaa00'}})
             }
         } else {
-            console.log("waiting");
             creep.say('⌛ waiting');
             creep.moveTo(
                 config['WAITING_ZONE'][0], config['WAITING_ZONE'][1],
