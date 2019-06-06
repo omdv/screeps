@@ -19,11 +19,7 @@ var roleBuilder = {
             // repair section
             var to_repair = creep.room.find(FIND_STRUCTURES, {filter: (structure) => {
                     return (
-                        (structure.structureType == STRUCTURE_ROAD ||
-                        structure.structureType == STRUCTURE_CONTAINER ||
-                        structure.structureType == STRUCTURE_EXTENSION ||
-                        structure.structureType == STRUCTURE_STORAGE ||
-                        structure.structureType == STRUCTURE_TOWER) && 
+                        (structure.structureType == STRUCTURE_TOWER) && 
                         structure.hits < (structure.hitsMax * config['REPAIR_THRESHOLD']));
                 }
             })

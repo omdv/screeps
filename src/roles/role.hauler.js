@@ -6,6 +6,7 @@ var roleHauler = {
     run: function(creep, sourceId) {
         if(creep.carry.energy < creep.carryCapacity) {
             // TODO: split by sourceID
+            // TODO: add rare minerals from invaders
             var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES)
             if(dropenergy){
                 if(creep.pickup(dropenergy) == ERR_NOT_IN_RANGE){

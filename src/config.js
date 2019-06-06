@@ -1,8 +1,8 @@
 const config={
     // variables
     "BUILDING_CHECK_FREQUENCY": 100,
-    "NUMBER_OF_BUILDERS": 4,
-    "NUMBER_OF_UPGRADERS": 2,
+    "NUMBER_OF_BUILDERS": 2,
+    "NUMBER_OF_UPGRADERS": 4,
     "WAITING_ZONE": [40, 18],
     "REPAIR_THRESHOLD": 0.4,
     "PRIORITY_OF_ENERGY_FILLING": [

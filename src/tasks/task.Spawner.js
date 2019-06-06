@@ -35,7 +35,7 @@ var taskSpawner = {
       // if work_parts can be added
       if (work_parts_to_add > 0){
         // if there is enough space - just add creep
-        if (Memory.sources[k]['assigned_miners'] <= Memory.sources[k]['open_fields']) {
+        if (Memory.sources[k]['assigned_miners'] < Memory.sources[k]['open_fields']) {
           let creep_body = [MOVE, MOVE, WORK];
           for (var i = 0; i < work_parts_to_add-1; i++) {
             creep_body.push(WORK);
@@ -61,7 +61,7 @@ var taskSpawner = {
       }
     });
 
-    var NumberOfSources = 2;
+    var NumberOfSources = 5;
 
     // spawn miners
     for (var i = 0; i < NumberOfSources; i++) {

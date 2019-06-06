@@ -2,7 +2,8 @@
 var taskSpawner = require('tasks_task.Spawner');
 var taskBuildBase = require('tasks_task.BuildBase');
 var taskBuildRoads = require('tasks_task.BuildRoads');
-var taskUpdateMemory = require('tasks_task.UpdateMemory');
+var taskManageMemory = require('tasks_task.ManageMemory');
+var taskManageTowers = require('tasks_task.ManageTowers');
 
 
 // all roles
@@ -16,22 +17,9 @@ const config = require('config');
 
 module.exports.loop = function () {
 
-    // // clear memory
-    // for(var name in Memory.creeps) {
-    //     if(!Game.creeps[name]) {
-    //         // let creep = Game.creeps[name];
-    //         console.log(Memory.creeps[name]);
-    //         if (Memory.creeps[name].role == 'miner') {
-    //           // console.log('Clearing up miner:', name, Memory.creeps[name].source);
-    //           Memory.sources[Memory.creeps[name].source].assigned_parts -= Memory.creeps[name].work_parts;
-    //           Memory.sources[Memory.creeps[name].source].assigned_miners -= 1;
-
-    //         }
-    //         delete Memory.creeps[name];
-    //         console.log('Clearing non-existing creep memory:', name);
-    //     }
-    // }
-    taskUpdateMemory.run();
+    // Managing tasks
+    taskManageMemory.run();
+    taskManageTowers.run(Game);
 
     // Spawner loop
     // TODO: make room specific
@@ -43,29 +31,7 @@ module.exports.loop = function () {
       taskBuildBase.run(Game);
       taskBuildRoads.run(Game);
     }
-
-    // // Place roads
-    // if (Game.time % config['BUILDING_CHECK_FREQUENCY'] == 0) {
-    //   console.log('Checking roads');
-    //   taskBuildRoads.run(Game);
-    // }
-
-
-    // var tower = Game.getObjectById('TOWER_ID');
-    // if(tower) {
-    //     var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-    //         filter: (structure) => structure.hits < structure.hitsMax
-    //     });
-    //     if(closestDamagedStructure) {
-    //         tower.repair(closestDamagedStructure);
-    //     }
-
-    //     var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-    //     if(closestHostile) {
-    //         tower.attack(closestHostile);
-    //     }
-    // }
-
+    
     // assign roles
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
