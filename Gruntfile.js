@@ -6,7 +6,7 @@ module.exports = function (grunt) {
     var private_config = require('./.screeps.private.json')
   
     // Allow grunt options to override default configuration
-    var target = grunt.option('target') || 'private'
+    var target = grunt.option('target') || 'public'
     var config = target == 'private' ? private_config : public_config
     var branch = grunt.option('branch') || config.branch;
     var email = grunt.option('email') || config.email;
