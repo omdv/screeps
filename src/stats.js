@@ -7,7 +7,7 @@ function exportStats() {
       cpu: {},
     };
   
-    Memory.stats.time = Game.time;
+    Memory.stats.timestamp = Game.time;
   
     // Collect room stats
     for (let roomName in Game.rooms) {

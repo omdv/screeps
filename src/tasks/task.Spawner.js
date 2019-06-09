@@ -50,7 +50,8 @@ var taskSpawner = {
           Memory.sources[k]['assigned_parts'] += work_parts_to_add;
           Memory.sources[k]['assigned_miners'] += 1;
         } else {
-          console.log('upgrading miners');
+          null
+          // console.log('upgrading miners');
           // // upgrade existing miners
           // let current_miners = _.filter(Memory.creeps, function(c) { 
           //   return (c.memory.role == 'miner' && c.memory.source == k) });
