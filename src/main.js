@@ -22,13 +22,13 @@ module.exports.loop = function () {
 
     // Spawner loop
     // TODO: make room specific
-    taskSpawner.run(Game);
+    taskSpawner.run();
 
     // Construction loops
     if (Game.time % config['BUILDING_CHECK_FREQUENCY'] == 0) {
       console.log('Checking structures');
-      taskBuildBase.run(Game);
-      taskBuildRoads.run(Game);
+      taskBuildBase.run();
+      taskBuildRoads.run();
     }
     
     // assign roles

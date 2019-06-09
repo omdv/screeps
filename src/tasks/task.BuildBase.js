@@ -2,8 +2,8 @@ const config = require('config');
 
 var taskBuildBase = {
   
-  run: function(game) {
-    var room= game.spawns.Spawn1.room;
+  run: function() {
+    var room= Game.spawns.Spawn1.room;
     var room_level = room.controller.level;
     var structures = config['structures'];
 

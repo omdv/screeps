@@ -2,10 +2,10 @@ const config = require('config');
 
 var taskBuildRoads = {
   
-  run: function(game) {
-    var spawnPos= game.spawns.Spawn1.pos;
-    var room = game.spawns.Spawn1.room;
-    var controlPos = game.spawns.Spawn1.room.controller.pos;
+  run: function() {
+    var spawnPos= Game.spawns.Spawn1.pos;
+    var room = Game.spawns.Spawn1.room;
+    var controlPos = Game.spawns.Spawn1.room.controller.pos;
     var sources = room.find(FIND_SOURCES);
 
 

@@ -2,8 +2,8 @@ const config = require('config');
 
 var taskSpawner = {
   
-  run: function(game) {
-    var room = game.spawns['Spawn1'].room;
+  run: function() {
+    var room = Game.spawns['Spawn1'].room;
     var room_level = room.controller.level;
 
     // evaluate sources
@@ -26,11 +26,11 @@ var taskSpawner = {
 
     // spawn miners
     _.forOwn(Memory.sources, function(v, k) {
-      let work_parts = Math.floor((room.energyAvailable - 2*BODYPART_COST['move']) / BODYPART_COST['work']);
+      const work_parts_can_add = Math.floor((room.energyAvailable - 2*BODYPART_COST['move']) / BODYPART_COST['work']);
       
       // cap the amount
       let max_work_parts_needed = 10/HARVEST_POWER - Memory.sources[k]['assigned_parts'];
-      let work_parts_to_add = work_parts > max_work_parts_needed ? max_work_parts_needed : work_parts;
+      let work_parts_to_add = work_parts_can_add > max_work_parts_needed ? max_work_parts_needed : work_parts_can_add;
 
       // if work_parts can be added
       if (work_parts_to_add > 0){
@@ -40,8 +40,8 @@ var taskSpawner = {
           for (var i = 0; i < work_parts_to_add-1; i++) {
             creep_body.push(WORK);
           }
-          let name = 'miner' + game.time.toString();
-          game.spawns['Spawn1'].spawnCreep(
+          let name = 'miner' + Game.time.toString();
+          Game.spawns['Spawn1'].spawnCreep(
             creep_body,
             name,
             {memory: {role: 'miner', source: k, work_parts: work_parts_to_add}}
@@ -50,6 +50,7 @@ var taskSpawner = {
           Memory.sources[k]['assigned_parts'] += work_parts_to_add;
           Memory.sources[k]['assigned_miners'] += 1;
         } else {
+          // TODO: create max capacity miner
           null
           // console.log('upgrading miners');
           // // upgrade existing miners
@@ -66,19 +67,10 @@ var taskSpawner = {
 
     // spawn miners
     for (var i = 0; i < NumberOfSources; i++) {
-      // // miner per source
-      // let name = 'miner' + i;
-      // if (!(name in Memory.creeps)) {
-      //   game.spawns['Spawn1'].spawnCreep(
-      //     [WORK,WORK,MOVE],
-      //     name, {memory: {role: 'miner', source: i}}
-      //   );
-      // }
-      
       // hauler per source
       name = 'hauler' + i;
       if (!(name in Memory.creeps)) {
-        game.spawns['Spawn1'].spawnCreep(
+        Game.spawns['Spawn1'].spawnCreep(
           [CARRY,MOVE],
           name, {memory: {role: 'hauler', source: i}}
         );
@@ -89,24 +81,24 @@ var taskSpawner = {
     for (var i = 0; i < config['NUMBER_OF_UPGRADERS']; i++) {
       let name = 'upgrader'+i;
       if (!(name in Memory.creeps)) {
-        game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], name, {memory: {role: 'upgrader'}});
+        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], name, {memory: {role: 'upgrader'}});
       }
     }
 
     for (var i = 0; i < config['NUMBER_OF_BUILDERS']; i++) {
       let name = 'builder'+i;
       if (!(name in Memory.creeps)) {
-        game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], name, {memory: {role: 'builder'}});
+        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], name, {memory: {role: 'builder'}});
       }
     }
 
     // verbose
-    if(game.spawns['Spawn1'].spawning) {
-      var spawningCreep = game.creeps[game.spawns['Spawn1'].spawning.name];
-      game.spawns['Spawn1'].room.visual.text(
+    if(Game.spawns['Spawn1'].spawning) {
+      var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
+      Game.spawns['Spawn1'].room.visual.text(
           '🛠️' + spawningCreep.memory.role,
-          game.spawns['Spawn1'].pos.x + 1,
-          game.spawns['Spawn1'].pos.y,
+          Game.spawns['Spawn1'].pos.x + 1,
+          Game.spawns['Spawn1'].pos.y,
           {align: 'left', opacity: 0.8});
     }
 

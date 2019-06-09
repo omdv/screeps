@@ -4,13 +4,15 @@ var roleHauler = {
 
     /** @param {Creep} creep **/
     run: function(creep, sourceId) {
-        if(creep.carry.energy < creep.carryCapacity) {
+        if(_.sum(creep.carry) < creep.carryCapacity) {
             // TODO: split by sourceID
             // TODO: add rare minerals from invaders
-            var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES)
-            if(dropenergy){
-                if(creep.pickup(dropenergy) == ERR_NOT_IN_RANGE){
-                    creep.moveTo(dropenergy.pos, {visualizePathStyle: {stroke: '#ffaa00'}})
+            const drop_energy = creep.pos.findClosestByPath(FIND_DROPPED_ENERGY);
+            const drop_resources = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
+            if(drop_energy){
+                console.log(creep, ": picking up energy");
+                if(creep.pickup(drop_energy) == ERR_NOT_IN_RANGE){
+                    creep.moveTo(drop_energy.pos, {visualizePathStyle: {stroke: '#ffaa00'}})
                 }
             } else {
                 // move to WAITING_ZONE
@@ -20,19 +22,19 @@ var roleHauler = {
                     {visualizePathStyle: {stroke: '#ffaa00'}}
                 );
             }
-            // var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES)
-            // if(dropenergy) {
-            //     if(creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
-            //         creep.moveTo(dropenergy, {visualizePathStyle: {stroke: '#ffffff'}});
+            // var drop_energy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES)
+            // if(drop_energy) {
+            //     if(creep.pickup(drop_energy) == ERR_NOT_IN_RANGE) {
+            //         creep.moveTo(drop_energy, {visualizePathStyle: {stroke: '#ffffff'}});
             //     }
             // } else {
 
             // var sources = creep.room.find(FIND_SOURCES);
             // creep.moveTo(sources[sourceId].pos, {visualizePathStyle: {stroke: '#ffaa00'}});
             // if (creep.pos.isNearTo(sources[sourceId].pos)) {
-            //     var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES)
-            //     if(dropenergy) {
-            //         creep.pickup(dropenergy)
+            //     var drop_energy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES)
+            //     if(drop_energy) {
+            //         creep.pickup(drop_energy)
             //     } else {
             //     // move to WAITING_ZONE
             //     creep.say('⌛ waiting');
@@ -44,6 +46,7 @@ var roleHauler = {
             // }
         }
         else {
+            console.log(creep, ": hauling energy");
             if (Game.spawns['Spawn1'].energy < (Game.spawns['Spawn1'].energyCapacity - 20)) {
                 targets = [Game.spawns['Spawn1']]
             } else {
@@ -61,6 +64,7 @@ var roleHauler = {
                 })
             }
             if(targets.length > 0) {
+                console.log(creep, ": moving to target");
                 // sort by priority of filling
                 targets = _.sortBy(targets, function(item){
                     return config['PRIORITY_OF_ENERGY_FILLING'].indexOf(item.structureType)
