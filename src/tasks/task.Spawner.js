@@ -3,10 +3,11 @@ const config = require('config');
 var taskSpawner = {
   
   run: function() {
+    // room vars
     var room = Game.spawns['Spawn1'].room;
     var room_level = room.controller.level;
 
-    // evaluate sources
+    // initiate Memory.sources
     if (!('sources' in Memory)){
       let sources = room.find(FIND_SOURCES);
       let sources_dict = {};
@@ -24,7 +25,11 @@ var taskSpawner = {
       Memory.sources = sources_dict;
     };
 
-    // spawn miners
+    
+    // total counter of work parts
+    var work_parts_assigned = 0;
+
+    // determine number of miners
     _.forOwn(Memory.sources, function(v, k) {
       const work_parts_can_add = Math.floor((room.energyAvailable - 2*BODYPART_COST['move']) / BODYPART_COST['work']);
       
@@ -46,9 +51,10 @@ var taskSpawner = {
             name,
             {memory: {role: 'miner', source: k, work_parts: work_parts_to_add}}
           );
-          // update memory
+          // update memory and total counter
           Memory.sources[k]['assigned_parts'] += work_parts_to_add;
           Memory.sources[k]['assigned_miners'] += 1;
+          work_parts_assigned += Memory.sources[k]['assigned_parts'];
         } else {
           // TODO: create max capacity miner
           null
@@ -62,6 +68,17 @@ var taskSpawner = {
         }
       }
     });
+
+    // determine number of upgraders
+    const tick_energy_produced = work_parts_assigned * HARVEST_POWER;
+    console.log(
+      "Number of miner work parts/energy per tick ",
+      work_parts_assigned,
+      energy_produced_per_tick);
+    const ratio_for_upgrade = 0.2;
+    const tick_energy_upgrading = tick_energy_produced * ratio_for_upgrade; //(10 / tick)
+
+
 
     var NumberOfSources = 5;
 
